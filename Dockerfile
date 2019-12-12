@@ -2,13 +2,13 @@ FROM pdal/pdal:latest
 
 MAINTAINER "Tyson Lee Swetnam <tswetnam@cyverse.org>"
 
-# add iCommands for iRODS
-ENV ICMD_BASE="https://files.renci.org/pub/irods/releases/4.1.12/ubuntu14"
-ENV ICMD_PKG="irods-icommands-4.1.12-ubuntu14-x86_64.deb"
-# Install iCommands.
-RUN curl -o "$ICMD_PKG" "$ICMD_BASE/$ICMD_PKG" \
-        && dpkg -i "$ICMD_PKG" \
-        && rm -f "$ICMD_PKG"
+# add depende cies
+RUN apt-get update -y && apt-get install -y libfuse2 libssl1.0
+
+# Install iCommands
+RUN wget https://files.renci.org/pub/irods/releases/4.1.12/ubuntu14/irods-icommands-4.1.12-ubuntu14-x86_64.deb && \
+    dpkg -i irods-icommands-4.1.12-ubuntu14-x86_64.deb && \
+    rm irods-icommands-4.1.12-ubuntu14-x86_64.deb
 
 # Create CVFMS file system directory and "work" directory
 CMD mkdir /cvmfs /work
