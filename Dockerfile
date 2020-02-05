@@ -21,5 +21,12 @@ ADD irods_environment.json /home/${USER}/.irods/irods_environment.json
 ADD run_script /usr/bin/run_script
 ADD upload_files /usr/bin/upload_files
 
+WORKDIR /work
+
+# Install DE wrapper script and script to upload output-files.
+RUN wget -r -nH --cut-dirs=4 --no-parent --reject="index.html*" -e robots=off https://data.cyverse.org/dav-anon/iplant/projects/osg/
+ADD wrapper /usr/bin/wrapper
+ADD upload-files /usr/bin/upload-files
+
 # Make the wrapper script the default command.
-CMD ["run_script"]
+CMD ["wrapper"]
